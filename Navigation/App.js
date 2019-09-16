@@ -2,14 +2,10 @@
 
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button,TouchableOpacity,Image,TouchableHighlight } from 'react-native';
-import { NavigationActions, StackActions } from 'react-navigation';
 import {backImage} from './backImage.png'
-
-
-import {
-    createAppContainer,
-} from 'react-navigation';
-import { createBottomTabNavigator,createMaterialTopTabNavigator } from 'react-navigation-tabs';
+import {createAppContainer } from 'react-navigation';
+import { NavigationActions, StackActions} from 'react-navigation';
+import { createBottomTabNavigator,createMaterialTopTabNavigator,MaterialTopTabBar } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack'
 
 
@@ -199,26 +195,19 @@ const Tab2Nav1Screen = createMaterialTopTabNavigator(
             },
         },
 
+        tabBarComponent: props => {
+            return (
+                   <View style = {{flexDirection: 'row',marginTop:60}} >
+                       <TouchableOpacity onPress={() => {props.navigation.goBack(); }}>
+                           <Image source={require('./backImage.png')} style={{ height: 26, width: 26, marginLeft: 12 , marginTop:10 }} />
+                       </TouchableOpacity>
+                      <MaterialTopTabBar { ...props} style = {{flex: 1, backgroundColor: 'transparent'}}/>
+                   </View>
+            )
+        }
     }
 );
 
-
-
-//making a StackNavigator to export as default
-const Tab2TopTab1Stack = createStackNavigator({
-    Tab2Nav1Screen: {
-        screen: Tab2Nav1Screen,
-        navigationOptions: ({ navigation }) => {
-            return {
-                headerLeft: (
-                    <TouchableOpacity onPress={() => { navigation.goBack(); }}>
-                        <Image source={backImage} style={{ height: 26, width: 26, marginLeft: 16,backgroundColor:'black' }} />
-                    </TouchableOpacity>
-                ),
-            };
-        }
-    },
-});
 
 
 //making a StackNavigator to export as default
@@ -282,15 +271,8 @@ const Screen2TabStack = createStackNavigator({
     },
     Tab2Nav1Screen: {
         screen: Tab2Nav1Screen,
-        navigationOptions: ({ navigation }) => {
-            return {
-                title: 'Title',
-                headerLeft: (
-                    <TouchableOpacity onPress={() => { navigation.goBack(); }}>
-                        <Image source={require('./backImage.png')} style={{ height: 26, width: 26, marginLeft: 16 }} />
-                    </TouchableOpacity>
-                ),
-            };
+        navigationOptions: {
+            header:null
         }
     },
     Detail: {
